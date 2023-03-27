@@ -10,16 +10,13 @@ export class App extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
-    const { name } = form.elements;
-
-    const contact = {
-      id: nanoid(),
-      name: name.value,
-    };
 
     this.setState(prevState => {
       return {
-        contacts: [...prevState.contacts, { contact }],
+        contacts: [
+          ...prevState.contacts,
+          { id: nanoid(), name: this.state.name },
+        ],
       };
     });
   };
@@ -60,7 +57,11 @@ export class App extends Component {
         </form>
         {/* // ! Component */}
         <h3>Contacts</h3>
-        <ul></ul>
+        <ul>
+          {this.state.contacts.map(({ id, name }) => {
+            return <li key={id}>{name}</li>;
+          })}
+        </ul>
       </div>
     );
   }
