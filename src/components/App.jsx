@@ -5,6 +5,7 @@ export class App extends Component {
   state = {
     contacts: [],
     name: '',
+    number: '',
   };
 
   handleSubmit = evt => {
@@ -15,14 +16,29 @@ export class App extends Component {
       return {
         contacts: [
           ...prevState.contacts,
-          { id: nanoid(), name: this.state.name },
+          { id: nanoid(), name: this.state.name, number: this.state.number },
         ],
       };
+    });
+
+    this.setState({
+      name: '',
+      number: '',
     });
   };
 
   handleChange = evt => {
-    this.setState({ name: evt.target.value });
+    console.dir(evt.target.name);
+    switch (evt.target.name) {
+      case 'name':
+        this.setState({ name: evt.target.value });
+        break;
+      case 'number':
+        this.setState({ number: evt.target.value });
+        break;
+      default:
+        console.log('Sorry, this element is not under control');
+    }
   };
 
   render() {
@@ -53,13 +69,29 @@ export class App extends Component {
               required
             />
           </label>
+          <label>
+            Number
+            <input
+              type="tel"
+              name="number"
+              value={this.state.number}
+              onChange={this.handleChange}
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+            />
+          </label>
           <button type="submit">Add contact</button>
         </form>
         {/* // ! Component */}
         <h3>Contacts</h3>
         <ul>
-          {this.state.contacts.map(({ id, name }) => {
-            return <li key={id}>{name}</li>;
+          {this.state.contacts.map(({ id, name, number }) => {
+            return (
+              <li key={id}>
+                {name}: {number}
+              </li>
+            );
           })}
         </ul>
       </div>
