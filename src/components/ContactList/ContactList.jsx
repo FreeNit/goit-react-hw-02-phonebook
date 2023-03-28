@@ -1,4 +1,6 @@
-export const ContactList = ({ filter, contacts }) => {
+import { ListOfContacts, ListItem, ListItemButton } from './ContactList.styled';
+
+export const ContactList = ({ filter, contacts, deleteContact }) => {
   const normalizedFilter = filter.toLowerCase();
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(normalizedFilter)
@@ -6,22 +8,22 @@ export const ContactList = ({ filter, contacts }) => {
 
   return (
     <div>
-      <ul>
+      <ListOfContacts>
         {visibleContacts.map(({ id, name, number }) => {
           return (
-            <li key={id}>
+            <ListItem key={id}>
               {name}: {number}{' '}
-              <button
+              <ListItemButton
                 onClick={() => {
-                  this.deleteContact(id);
+                  deleteContact(id);
                 }}
               >
                 Delete
-              </button>
-            </li>
+              </ListItemButton>
+            </ListItem>
           );
         })}
-      </ul>
+      </ListOfContacts>
     </div>
   );
 };

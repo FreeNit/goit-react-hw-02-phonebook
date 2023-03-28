@@ -1,8 +1,10 @@
+import { FilterWrapper, SubHeader, FilterInput } from './Filter.styled';
+
 export const Filter = ({ filterValue, handleFilter }) => {
   return (
-    <div>
-      <p>Find contacts by name</p>
-      <input
+    <FilterWrapper>
+      <SubHeader>Find contacts by name</SubHeader>
+      <FilterInput
         type="text"
         name="filter"
         value={filterValue}
@@ -10,6 +12,6 @@ export const Filter = ({ filterValue, handleFilter }) => {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Filter may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
       />
-    </div>
+    </FilterWrapper>
   );
 };
