@@ -4,22 +4,36 @@ import { nanoid } from 'nanoid';
 export class App extends Component {
   state = {
     contacts: [],
+    filter: '',
     name: '',
     number: '',
   };
 
+  checkUserAvailability = (userName, listOfContacts) => {
+    return listOfContacts.find(contact => contact.name === userName);
+  };
+
   handleSubmit = evt => {
     evt.preventDefault();
-    const form = evt.currentTarget;
 
-    this.setState(prevState => {
-      return {
-        contacts: [
-          ...prevState.contacts,
-          { id: nanoid(), name: this.state.name, number: this.state.number },
-        ],
-      };
-    });
+    const { name, number, contacts } = this.state;
+
+    const isUserAvailable = this.checkUserAvailability(name, contacts);
+
+    if (isUserAvailable) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    this.setState(prevState => ({
+      contacts: [contact, ...prevState.contacts],
+    }));
 
     this.setState({
       name: '',
@@ -28,7 +42,6 @@ export class App extends Component {
   };
 
   handleChange = evt => {
-    console.dir(evt.target.name);
     switch (evt.target.name) {
       case 'name':
         this.setState({ name: evt.target.value });
@@ -41,7 +54,25 @@ export class App extends Component {
     }
   };
 
+  handleFilter = evt => {
+    this.setState({
+      filter: evt.target.value,
+    });
+  };
+
+  deleteContact = contactID => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactID),
+    }));
+  };
+
   render() {
+    const normalizedFilter = this.state.filter.toLowerCase();
+
+    const visibleContacts = this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+
     return (
       <div
         style={{
@@ -85,11 +116,27 @@ export class App extends Component {
         </form>
         {/* // ! Component */}
         <h3>Contacts</h3>
+        <p>Find contacts by name</p>
+        <input
+          type="text"
+          name="filter"
+          value={this.state.filter}
+          onChange={this.handleFilter}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Filter may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        />
         <ul>
-          {this.state.contacts.map(({ id, name, number }) => {
+          {visibleContacts.map(({ id, name, number }) => {
             return (
               <li key={id}>
-                {name}: {number}
+                {name}: {number}{' '}
+                <button
+                  onClick={() => {
+                    this.deleteContact(id);
+                  }}
+                >
+                  Delete
+                </button>
               </li>
             );
           })}
