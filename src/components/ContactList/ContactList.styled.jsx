@@ -41,9 +41,9 @@ export const ListItemButton = styled.button`
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
-  font-family: nunito, roboto, proxima-nova, 'proxima nova', sans-serif;
+  font-family: inherit;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 16px;
   min-height: 30px;
   outline: 0;
