@@ -2,12 +2,35 @@ import styled from 'styled-components';
 
 export const ListOfContacts = styled.ul`
   font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  padding-left: 15px;
 `;
 
-export const ListItem = styled.li``;
+export const ListItem = styled.li`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  ::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    width: 7px;
+    height: 7px;
+    font-size: 7px;
+    background-color: #000;
+    border-radius: 50px;
+  }
+`;
 
 export const ListItemButton = styled.button`
-  margin-left: 15px;
+  /* margin-left: 15px; */
   font-size: 16px;
 
   background: #ff4742;
@@ -22,9 +45,9 @@ export const ListItemButton = styled.button`
   font-size: 16px;
   font-weight: 800;
   line-height: 16px;
-  min-height: 40px;
+  min-height: 30px;
   outline: 0;
-  padding: 5px 10px;
+  padding: 3px 7px;
   text-align: center;
   text-rendering: geometricprecision;
   text-transform: none;
