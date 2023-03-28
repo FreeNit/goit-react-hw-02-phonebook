@@ -5,6 +5,11 @@ import { ContactForm } from '../ContactForm/ContactForm';
 import { Filter } from '../Filter/Filter';
 import { ContactList } from '../ContactList/ContactList';
 import { TitleMain, TitleContacts } from './App.styled';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export class App extends Component {
   state = {
@@ -51,6 +56,7 @@ export class App extends Component {
           <ContactForm
             updateContactList={this.updateContactList}
             checkUserAvailability={this.checkUserAvailability}
+            NotificationManager={NotificationManager}
           />
         </div>
 
@@ -67,6 +73,7 @@ export class App extends Component {
           />
         </div>
 
+        <NotificationContainer />
         <GlobalStyle />
       </div>
     );

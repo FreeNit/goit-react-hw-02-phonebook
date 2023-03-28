@@ -17,13 +17,14 @@ export class ContactForm extends Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
-    const { updateContactList, checkUserAvailability } = this.props;
+    const { updateContactList, checkUserAvailability, NotificationManager } =
+      this.props;
     const { name, number } = this.state;
 
     const isUserAvailable = checkUserAvailability(name);
 
     if (isUserAvailable) {
-      alert(`${name} is already in contacts`);
+      NotificationManager.warning(`${name} is already in contacts`);
       return;
     }
 
