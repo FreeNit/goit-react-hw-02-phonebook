@@ -17,6 +17,30 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const localContacts = localStorage.getItem('contacts');
+    if (localContacts) {
+      this.setState({
+        contacts: JSON.parse(localContacts),
+      });
+    }
+  }
+
+  // -> update local storage and state
+  componentDidUpdate(prevProps, prevState) {
+    // if (this.props.contacts.length !== prevProps.contacts.length) {
+    //   this.setState({
+    //     contacts: this.props.contacts,
+    //   });
+    // }
+
+    if (this.state.contacts && prevState.contacts) {
+      if (prevState.contacts.length !== this.state.contacts.length) {
+        localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      }
+    }
+  }
+
   updateContactList = contact => {
     this.setState(prevState => ({
       contacts: [contact, ...prevState.contacts],
@@ -27,16 +51,16 @@ export class App extends Component {
     return this.state.contacts.find(contact => contact.name === userName);
   };
 
-  handleFilter = evt => {
-    this.setState({
-      filter: evt.target.value,
-    });
-  };
-
   deleteContact = id => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
+  };
+
+  handleFilter = evt => {
+    this.setState({
+      filter: evt.target.value,
+    });
   };
 
   render() {
@@ -59,19 +83,20 @@ export class App extends Component {
             NotificationManager={NotificationManager}
           />
         </div>
-
-        <div>
-          <TitleContacts>Contacts</TitleContacts>
-          <Filter
-            filterValue={this.state.filter}
-            handleFilter={this.handleFilter}
-          />
-          <ContactList
-            filter={this.state.filter}
-            contacts={this.state.contacts}
-            deleteContact={this.deleteContact}
-          />
-        </div>
+        {this.state.contacts.length > 0 && (
+          <div>
+            <TitleContacts>Contacts</TitleContacts>
+            <Filter
+              filterValue={this.state.filter}
+              handleFilter={this.handleFilter}
+            />
+            <ContactList
+              filter={this.state.filter}
+              contacts={this.state.contacts}
+              deleteContact={this.deleteContact}
+            />
+          </div>
+        )}
 
         <NotificationContainer />
         <GlobalStyle />

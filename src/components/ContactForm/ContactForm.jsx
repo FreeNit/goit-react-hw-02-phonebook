@@ -46,7 +46,7 @@ export class ContactForm extends Component {
       number,
     };
 
-    this.updateLocalStorage(contact);
+    this.updateAddToLocalStorage(contact);
 
     updateContactList(contact);
 
