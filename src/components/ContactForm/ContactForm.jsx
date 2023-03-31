@@ -15,6 +15,18 @@ export class ContactForm extends Component {
     number: '',
   };
 
+  // -> Add contact to Local Storage
+  updateAddToLocalStorage = contact => {
+    const localContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (localContacts) {
+      const newContacts = [...localContacts, contact];
+      localStorage.setItem('contacts', JSON.stringify(newContacts));
+    } else {
+      const newContacts = [contact];
+      localStorage.setItem('contacts', JSON.stringify(newContacts));
+    }
+  };
+
   handleSubmit = evt => {
     evt.preventDefault();
     const { updateContactList, checkUserAvailability, NotificationManager } =
@@ -33,6 +45,8 @@ export class ContactForm extends Component {
       name,
       number,
     };
+
+    this.updateLocalStorage(contact);
 
     updateContactList(contact);
 
